@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Payment</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .container {
+        text-align: center;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+    button {
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 18px;
+        transition: background 0.3s;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h2>Complete Your Payment</h2>
+        <button id="rzp-button1">Pay with Razorpay</button>
+    </div>
+    
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        var options = {
+            "key" : "[[${key}]]",
+            "amount" : "[[${eorder.price*100}]]",
+            "currency" : "[[${currency}]]",
+            "name" : "Novus Ecommerce",
+            "description" : "Test Transaction",
+            "image" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTD8efGG_Ud6IA8IlAWz-0zLIRaDym539pcBA&s",
+            "order_id" : "[[${eorder.orderId}]]",
+            "callback_url" : "[[${url}]]",
+            "prefill" : {
+                "name" : "[[${customer.name}]]",
+                "email" : "[[${customer.email}]]",
+                "contact" : "[[${customer.mobile}]]"
+            },
+            "notes" : {
+                "address" : "Razorpay Corporate Office"
+            },
+            "theme" : {
+                "color" : "#3399cc"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        document.getElementById('rzp-button1').onclick = function(e) {
+            rzp1.open();
+            e.preventDefault();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Home</title>
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        background: white;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        max-width: 400px;
+        width: 100%;
+    }
+
+    h1 {
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .message h3 {
+        color: red;
+    }
+
+    .message h4 {
+        color: green;
+    }
+
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    button {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        border: none;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        width: 100%;
+    }
+
+    button:hover {
+        background: linear-gradient(135deg, #0056b3, #004494);
+    }
+
+    a {
+        text-decoration: none;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Customer Home</h1>
+        <div class="message">
+            <h3 th:text="${session.fail}"></h3>
+            <h4 th:text="${session.pass}"></h4>
+            <th:block th:text="${@myService.removeMessage()}"></th:block>
+        </div>
+        <div class="button-container">
+            <a href="/view-products"><button>View All Products</button></a>
+            <a href="/view-cart"><button>View Cart</button></a>
+            <a href="/past-orders"><button>View Past Orders</button></a>
+            <a href="/logout"><button>Logout</button></a>
+        </div>
+    </div>
+</body>
+</html>

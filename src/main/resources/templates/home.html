@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novus - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            color: #333;
+        }
+        header {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 20px 30px;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .header-links {
+            display: flex;
+            gap: 20px;
+        }
+        .dropdown {
+            position: relative;
+        }
+        .dropdown button {
+            background: #ff758c;
+            border: none;
+            color: white;
+            font-size: 16px;
+            padding: 12px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .dropdown button:hover {
+            background: #ff5c7a;
+        }
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            min-width: 170px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: translateY(-10px);
+        }
+        .dropdown-content a {
+            display: block;
+            padding: 14px;
+            color: #333;
+            text-decoration: none;
+            font-size: 15px;
+            transition: background 0.3s;
+        }
+        .dropdown-content a:hover {
+            background: #ff758c;
+            color: white;
+        }
+        .dropdown.active .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(5px);
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 80%;
+            margin-top: 120px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
+            padding: 50px;
+            border-radius: 25px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            font-size: 42px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        h3 {
+            font-size: 18px;
+            max-width: 600px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+        footer {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 18px 0;
+            text-align: center;
+            font-size: 16px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            border-radius: 15px 15px 0 0;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Novus
+        <div class="header-links">
+            <div class="dropdown">
+                <button class="dropdown-btn">Signup</button>
+                <div class="dropdown-content">
+                    <a href="/customer-signup">Customer</a>
+                    <a href="/seller-signup">Seller</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropdown-btn">Login</button>
+                <div class="dropdown-content">
+                    <a href="/customer-login">Customer</a>
+                    <a href="/seller-login">Seller</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <h1>Welcome to Novus</h1>
+        <h3>Find your perfect picks in fashion, gadgets, and lifestyle.</h3>
+    </div>
+    <footer>
+        &copy; 2025 Novus | All Rights Reserved
+    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const dropdowns = document.querySelectorAll(".dropdown");
+            dropdowns.forEach(dropdown => {
+                const button = dropdown.querySelector(".dropdown-btn");
+                button.addEventListener("click", function (event) {
+                    event.stopPropagation();
+                    dropdown.classList.toggle("active");
+                    dropdowns.forEach(other => {
+                        if (other !== dropdown) other.classList.remove("active");
+                    });
+                });
+            });
+            document.addEventListener("click", function () {
+                dropdowns.forEach(dropdown => dropdown.classList.remove("active"));
+            });
+        });
+    </script>
+</body>
+</html>
