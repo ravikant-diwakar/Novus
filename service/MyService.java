@@ -31,7 +31,6 @@ import com.supertiles.ecommerce.repository.ItemRepository;
 import com.supertiles.ecommerce.repository.ProductRepository;
 import com.supertiles.ecommerce.repository.SellerRepository;
 
-
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
 
@@ -56,14 +55,14 @@ public class MyService {
 	@Value("${razorpay.secret}")
 	String secret;
 
+	@Value("${spring.mail.username}")
+	String mailFrom;
+
 	@Autowired
 	ProductRepository productRepository;
 
 	@Autowired
 	ItemRepository itemRepository;
-	
-
-
 
 	public String signup(Customer customer, HttpSession session) {
 		if (customerRepository.existsByEmail(customer.getEmail())) {
@@ -77,7 +76,7 @@ public class MyService {
 			customer.setOtp(otp);
 			customer.setPassword(AES.encrypt(customer.getPassword(), "123"));
 			customerRepository.save(customer);
-			 sendEmail(customer.getEmail(), customer.getName(), otp);
+			sendEmail(customer.getEmail(), customer.getName(), otp);
 			session.setAttribute("pass", "Otp Sent Success");
 			return "redirect:/customer-otp/" + customer.getId();
 		}
@@ -111,7 +110,7 @@ public class MyService {
 					int otp = new Random().nextInt(100000, 1000000);
 					customer.setOtp(otp);
 					customerRepository.save(customer);
-					 sendEmail(customer.getEmail(), customer.getName(), otp);
+					sendEmail(customer.getEmail(), customer.getName(), otp);
 					session.setAttribute("pass", "Otp Sent Success");
 					return "redirect:/customer-otp/" + customer.getId();
 				}
@@ -143,7 +142,7 @@ public class MyService {
 			seller.setOtp(otp);
 			seller.setPassword(AES.encrypt(seller.getPassword(), "123"));
 			sellerRepository.save(seller);
-			 sendEmail(seller.getEmail(), seller.getName(), otp);
+			sendEmail(seller.getEmail(), seller.getName(), otp);
 			session.setAttribute("pass", "Otp Sent Success");
 			return "redirect:/seller-otp/" + seller.getId();
 		}
@@ -177,7 +176,7 @@ public class MyService {
 					int otp = new Random().nextInt(100000, 1000000);
 					seller.setOtp(otp);
 					sellerRepository.save(seller);
-					 sendEmail(seller.getEmail(), seller.getName(), otp);
+					sendEmail(seller.getEmail(), seller.getName(), otp);
 					session.setAttribute("pass", "Otp Sent Success");
 					return "redirect:/seller-otp/" + seller.getId();
 				}
@@ -203,10 +202,10 @@ public class MyService {
 		try {
 			helper.setTo(email);
 			helper.setSubject("Email Verification with Novus");
-			helper.setFrom("mraj14558@gmail.com", "Novus");
+			helper.setFrom(mailFrom, "Novus");
 			helper.setText("<h1>Hello " + name + " Welcome to Novus. Your OTP is : " + otp + "</h1>", true);
 		} catch (Exception e) {
-			 e.printStackTrace(); 
+			e.printStackTrace();
 		}
 		mailSender.send(message);
 	}
@@ -470,11 +469,6 @@ public class MyService {
 			return "redirect:/customer-login";
 		}
 	}
-	
-
-
-
-
 
 	public String payment(HttpSession session, ModelMap map) throws RazorpayException {
 		if (session.getAttribute("customer") != null) {
